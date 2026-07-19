@@ -13,7 +13,6 @@ export const EditorTabs: React.FC<EditorTabsProps> = ({ activeTab, setActiveTab 
     { id: 'basic' as EditorTabId, label: 'Details', icon: User },
     { id: 'body' as EditorTabId, label: 'Content', icon: FileText },
     { id: 'branding' as EditorTabId, label: 'Branding & Sign', icon: Award },
-    { id: 'theme' as EditorTabId, label: 'Design', icon: Palette },
     { id: 'batch' as EditorTabId, label: 'Batch Mode', icon: Users },
     { id: 'registry' as EditorTabId, label: 'Issued Registry', icon: Database, badge: 'DB' },
   ];

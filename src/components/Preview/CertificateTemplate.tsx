@@ -63,28 +63,8 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
 
         {/* Top Header Section */}
         <div className="grid grid-cols-3 items-center border-b border-gray-100 pb-4 w-full">
-          {/* Left Column: ISO Badge & Corporate Identity Number (if enabled) */}
+          {/* Left Column: Empty (no ISO or CIN) */}
           <div className="flex items-center gap-4 justify-start">
-            {data.showIsoBadge && (
-              <div className="flex items-center border-2 border-amber-500 rounded px-3 py-1 bg-amber-50/60 shadow-xs scale-90 origin-left">
-                <div className="mr-2 text-amber-600 font-black text-lg flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 border border-amber-300">
-                  ✓
-                </div>
-                <div className="flex flex-col leading-tight">
-                  <div className="flex items-center gap-1 font-black text-gray-900 text-xs tracking-tight">
-                    <span>ISO</span>
-                    <span className="text-[10px] font-semibold px-1 py-0.2 bg-amber-500 text-white rounded">9001:2015</span>
-                  </div>
-                  <span className="text-[9px] font-bold tracking-widest text-gray-700 uppercase">CERTIFIED</span>
-                </div>
-              </div>
-            )}
-            {data.cin && (
-              <div className="flex flex-col">
-                <span className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">CIN :</span>
-                <span className="text-xs font-bold text-gray-800 tracking-wide font-mono">{data.cin}</span>
-              </div>
-            )}
           </div>
 
           {/* Center Column: Company Brand & Logo (Seamlessly integrated with mix-blend-multiply so it doesn't look pasted) */}
@@ -156,29 +136,25 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
             </span>
             
             <div className="h-12 flex items-end justify-start my-0.5">
-              {data.signatureStyle === 'upload' && data.signatureUrl ? (
-                <img src={data.signatureUrl} alt="Signature" className="max-h-12 object-contain" />
-              ) : (
-                <span 
-                  className={`text-4xl pr-4 leading-none ${
-                    data.signatureStyle === 'handwriting-2' ? 'font-signature-2' :
-                    data.signatureStyle === 'handwriting-3' ? 'font-signature-3' :
-                    'font-signature-1'
-                  }`}
-                  style={{ color: theme.primaryColor }}
-                >
-                  {data.signatoryName || 'Signature'}
-                </span>
-              )}
+              <span 
+                className={`text-4xl pr-4 leading-none ${
+                  data.signatureStyle === 'handwriting-2' ? 'font-signature-2' :
+                  data.signatureStyle === 'handwriting-3' ? 'font-signature-3' :
+                  'font-signature-1'
+                }`}
+                style={{ color: theme.primaryColor }}
+              >
+                {data.signatoryName === 'Lav Sharma' ? 'Lav Sharma' : 'Kush Sharma'}
+              </span>
             </div>
 
             <div className="w-52 h-[1.5px] bg-gray-400 my-1" />
             
             <span className="text-sm font-extrabold text-gray-900 leading-tight">
-              {data.signatoryTitle.split('\n')[0] || 'Director & CEO'}
+              {data.signatoryName === 'Lav Sharma' ? 'Lav Sharma' : 'Kush Sharma'}
             </span>
             <span className="text-[10px] font-bold text-gray-600 uppercase tracking-widest mt-0.5">
-              {data.signatoryTitle.split('\n')[1] || data.companyName}
+              {data.signatoryName === 'Lav Sharma' ? 'Co-Founder, ChittorTech' : 'Founder, ChittorTech'}
             </span>
           </div>
 
@@ -186,7 +162,7 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
           <div className="flex items-center gap-3.5 justify-center pb-0.5">
             {/* QR Code & Verified by ChittorTech Badge */}
             {data.showQrCode !== false && (
-              <div className="flex flex-col items-center gap-1 shrink-0">
+              <div className="relative flex flex-col items-center shrink-0">
                 <div className="flex items-center gap-2.5 bg-gradient-to-r from-slate-50 to-emerald-50/60 p-2 rounded-xl border border-emerald-200/90 shadow-2xs">
                   <div className="p-1 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
                     <QRCodeSVG
@@ -217,7 +193,7 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
                 
                 {/* Dynamically printed URL beneath the badge */}
                 <span 
-                  className="text-[8px] font-black text-emerald-800/80 font-mono select-all truncate max-w-[200px] text-center tracking-tighter" 
+                  className="absolute top-[102%] left-1/2 -translate-x-1/2 text-[8px] font-black text-emerald-800/80 font-mono select-all truncate max-w-[220px] text-center tracking-tighter whitespace-nowrap" 
                   title={data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`}
                 >
                   {(data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`).replace(/^https?:\/\//, '')}
@@ -225,31 +201,6 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
               </div>
             )}
 
-            {/* Official Stamp / Seal (if enabled) */}
-            {data.sealType !== 'none' && (
-              <div className="flex justify-center items-center">
-                {data.sealType === 'dynamic' ? (
-                  <div 
-                    className="w-22 h-22 rounded-full border-[3px] border-double flex flex-col items-center justify-center text-center p-1 transform -rotate-12 select-none shadow-xs relative bg-white/50"
-                    style={{ borderColor: theme.sealColor, color: theme.sealColor }}
-                  >
-                    <div className="absolute inset-1 rounded-full border border-dashed opacity-40 pointer-events-none" style={{ borderColor: theme.sealColor }} />
-                    <span className="text-[7.5px] font-black tracking-tighter uppercase leading-none px-1">
-                      {data.companyName.substring(0, 24)}
-                    </span>
-                    <span className="text-[8px] my-0.5">★ ★ ★</span>
-                    <div className="px-1 py-0.2 rounded border bg-white/80" style={{ borderColor: theme.sealColor }}>
-                      <span className="text-[8.5px] font-black tracking-widest uppercase">VERIFIED</span>
-                    </div>
-                    <span className="text-[6px] font-bold uppercase tracking-widest opacity-85 mt-0.5">
-                      OFFICIAL SEAL
-                    </span>
-                  </div>
-                ) : data.sealType === 'upload' && data.sealUrl ? (
-                  <img src={data.sealUrl} alt="Seal" className="w-18 h-18 object-contain transform -rotate-6" />
-                ) : null}
-              </div>
-            )}
           </div>
 
           {/* Right Footer: Compact iStart Rajasthan Government Approved Startup Badge */}

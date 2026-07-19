@@ -65,14 +65,6 @@ export const EditorContainer: React.FC<EditorContainerProps> = ({
         {activeTab === 'branding' && (
           <BrandingForm data={data} onChange={onChange} />
         )}
-        {activeTab === 'theme' && (
-          <ThemeSelector
-            currentTheme={currentTheme}
-            onThemeSelect={onThemeSelect}
-            currentFontClass={currentFontClass}
-            onFontSelect={onFontSelect}
-          />
-        )}
         {activeTab === 'batch' && (
           <BatchGeneratorModal currentData={data} onApplyStudent={onApplyBatchStudent} />
         )}
