@@ -129,93 +129,74 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
         {/* Footer Section: Verified By on LEFT corner, Stamp & QR Code in Center, Compact iStart Badge on RIGHT corner */}
         <div className="flex items-end justify-between pt-4 border-t border-gray-100 w-full mt-auto">
           
-          {/* Left Footer: Signatory & Verified By */}
-          <div className="flex flex-col items-start text-left pb-0.5">
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-0.5">
+          {/* Left Footer: Signatory Card */}
+          <div className="flex flex-col justify-between h-[92px] w-[230px] bg-slate-50/60 border border-gray-200/80 p-2.5 rounded-xl shadow-2xs text-left">
+            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">
               Verified By :
             </span>
-            
-            <div className="h-12 flex items-end justify-start my-0.5">
-              <span 
-                className={`text-4xl pr-4 leading-none ${
-                  data.signatureStyle === 'handwriting-2' ? 'font-signature-2' :
-                  data.signatureStyle === 'handwriting-3' ? 'font-signature-3' :
-                  'font-signature-1'
-                }`}
-                style={{ color: theme.primaryColor }}
-              >
-                {data.signatoryName === 'Lav Sharma' ? 'Lav Sharma' : 'Kush Sharma'}
-              </span>
-            </div>
-
-            <div className="w-52 h-[1.5px] bg-gray-400 my-1" />
-            
-            <span className="text-sm font-extrabold text-gray-900 leading-tight">
+            <span 
+              className={`text-3xl leading-none my-1 ${
+                data.signatureStyle === 'handwriting-2' ? 'font-signature-2' :
+                data.signatureStyle === 'handwriting-3' ? 'font-signature-3' :
+                'font-signature-1'
+              }`}
+              style={{ color: theme.primaryColor }}
+            >
               {data.signatoryName === 'Lav Sharma' ? 'Lav Sharma' : 'Kush Sharma'}
             </span>
-            <span className="text-[10px] font-bold text-gray-600 uppercase tracking-widest mt-0.5">
-              {data.signatoryName === 'Lav Sharma' ? 'Co-Founder, ChittorTech' : 'Founder, ChittorTech'}
-            </span>
+            <div className="border-t border-gray-200 pt-1 leading-none">
+              <span className="text-xs font-black text-gray-950 block">
+                {data.signatoryName === 'Lav Sharma' ? 'Lav Sharma' : 'Kush Sharma'}
+              </span>
+              <span className="text-[8px] font-bold text-gray-500 uppercase tracking-wider mt-0.5 block">
+                {data.signatoryName === 'Lav Sharma' ? 'Co-Founder, ChittorTech' : 'Founder, ChittorTech'}
+              </span>
+            </div>
           </div>
 
-          {/* Center Footer: QR Code & Verification Badge + Optional Seal */}
-          <div className="flex items-center gap-3.5 justify-center pb-0.5">
-            {/* QR Code & Verified by ChittorTech Badge */}
-            {data.showQrCode !== false && (
-              <div className="relative flex flex-col items-center shrink-0">
-                <div className="flex items-center gap-2.5 bg-gradient-to-r from-slate-50 to-emerald-50/60 p-2 rounded-xl border border-emerald-200/90 shadow-2xs">
-                  <div className="p-1 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
-                    <QRCodeSVG
-                      value={data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`}
-                      size={52}
-                      level="H"
-                      includeMargin={false}
-                    />
+          {/* Center Footer: QR Code & Verification Badge */}
+          {data.showQrCode !== false && (
+            <div className="flex items-center gap-2.5 bg-slate-50/60 border border-gray-200/80 p-2.5 rounded-xl shadow-2xs h-[92px]">
+              <div className="p-1 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
+                <QRCodeSVG
+                  value={data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`}
+                  size={60}
+                  level="H"
+                  includeMargin={false}
+                />
+              </div>
+              {data.showVerifiedBadge !== false && (
+                <div className="flex flex-col text-left leading-tight pr-1">
+                  <div className="flex items-center gap-1 text-[10px] font-black text-emerald-700 tracking-tight">
+                    <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-emerald-600 text-white text-[8px] font-bold">✓</span>
+                    <span>Verified by</span>
                   </div>
-                  
-                  {data.showVerifiedBadge !== false && (
-                    <div className="flex flex-col text-left leading-tight pr-1">
-                      <div className="flex items-center gap-1 text-[10px] font-black text-emerald-700 tracking-tight">
-                        <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-emerald-600 text-white text-[8px] font-bold">✓</span>
-                        <span>Verified by</span>
-                      </div>
-                      <span className="text-xs font-black text-gray-900 tracking-wide uppercase mt-0.5">
-                        ChittorTech
-                      </span>
-                      {data.issueDate && (
-                        <span className="text-[9px] font-bold text-gray-600 tracking-tight mt-1 border-t border-emerald-200/80 pt-0.5">
-                          Date: <span className="font-semibold text-gray-900">{data.issueDate}</span>
-                        </span>
-                      )}
-                    </div>
+                  <span className="text-xs font-black text-gray-900 tracking-wide uppercase mt-0.5">
+                    ChittorTech
+                  </span>
+                  {data.issueDate && (
+                    <span className="text-[9px] font-bold text-gray-600 tracking-tight mt-1 border-t border-gray-200/85 pt-0.5">
+                      Date: <span className="font-semibold text-gray-900">{data.issueDate}</span>
+                    </span>
                   )}
                 </div>
-                
-                {/* Dynamically printed URL beneath the badge */}
-                <span 
-                  className="absolute top-[102%] left-1/2 -translate-x-1/2 text-[8px] font-black text-emerald-800/80 font-mono select-all truncate max-w-[220px] text-center tracking-tighter whitespace-nowrap" 
-                  title={data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`}
-                >
-                  {(data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`).replace(/^https?:\/\//, '')}
-                </span>
-              </div>
-            )}
-
-          </div>
+              )}
+            </div>
+          )}
 
           {/* Right Footer: Compact iStart Rajasthan Government Approved Startup Badge */}
-          <div className="flex items-end pb-0.5">
+          <div className="flex items-end">
             {(data.showIstartBadge !== false) && (
-              <div className="flex items-center gap-2.5 border border-emerald-400/70 rounded-lg px-3 py-1.5 bg-gradient-to-r from-emerald-50/80 to-teal-50/80 shadow-2xs">
+              <div className="flex items-center gap-2.5 bg-slate-50/60 border border-gray-200/80 p-2.5 rounded-xl shadow-2xs h-[92px]">
                 <img
                   src="/istart.png"
                   alt="iStart Rajasthan"
-                  className="h-10 object-contain drop-shadow-2xs shrink-0"
+                  className="h-12 object-contain drop-shadow-2xs shrink-0"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = 'none';
                   }}
                 />
-                <div className="flex flex-col text-left border-l border-emerald-300/80 pl-2.5 py-0.5 leading-tight">
+                <div className="flex flex-col text-left border-l border-gray-200 pl-2.5 py-0.5 leading-tight">
                   <span className="text-[9px] font-extrabold text-emerald-800 uppercase tracking-wider">
                     Rajasthan Government
                   </span>
