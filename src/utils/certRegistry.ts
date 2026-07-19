@@ -115,6 +115,71 @@ export const clearIssuedRegistry = (): void => {
   }
 };
 
+// Course title compression mapping
+const COURSE_MAP: Record<string, string> = {
+  'Web Development Internship': '0',
+  'Full Stack AI Engineering': '1',
+  'Cloud & DevOps Mastery': '2',
+};
+
+const REVERSE_COURSE_MAP: Record<string, string> = {
+  '0': 'Web Development Internship',
+  '1': 'Full Stack AI Engineering',
+  '2': 'Cloud & DevOps Mastery',
+};
+
+// Signatory name compression mapping
+const SIG_MAP: Record<string, string> = {
+  'Kush Sharma': 'K',
+  'Lav Sharma': 'L',
+};
+
+const REVERSE_SIG_MAP: Record<string, string> = {
+  'K': 'Kush Sharma',
+  'L': 'Lav Sharma',
+};
+
+// Compresses certificate fields into a compact array joined by '|'
+export const compressCertificateData = (cert: {
+  certificateId: string;
+  candidateName: string;
+  courseTitle: string;
+  issueDate: string;
+  signatoryName: string;
+}): string => {
+  const idMatch = cert.certificateId.match(/^CT-2026-(\d+)$/i);
+  const shortId = idMatch ? idMatch[1] : cert.certificateId;
+  const shortCourse = COURSE_MAP[cert.courseTitle] || cert.courseTitle;
+  const shortSig = SIG_MAP[cert.signatoryName] || cert.signatoryName;
+
+  return [
+    shortId,
+    cert.candidateName,
+    shortCourse,
+    cert.issueDate,
+    shortSig
+  ].join('|');
+};
+
+// Decompresses the array back into the full certificate fields
+export const decompressCertificateData = (compressed: string) => {
+  const parts = compressed.split('|');
+  if (parts.length < 5) return null;
+
+  const [id, name, course, date, sig] = parts;
+  const fullId = /^\d+$/.test(id) ? `CT-2026-${id.padStart(3, '0')}` : id;
+  const fullCourse = REVERSE_COURSE_MAP[course] || course;
+  const fullSig = REVERSE_SIG_MAP[sig] || sig;
+
+  return {
+    certificateId: fullId,
+    candidateName: name,
+    courseTitle: fullCourse,
+    issueDate: date,
+    signatoryName: fullSig
+  };
+};
+
 // A simple hash function to generate a 8-character hex signature
 export const generateSignature = (dataStr: string): string => {
   let hash = 5381;
@@ -126,7 +191,7 @@ export const generateSignature = (dataStr: string): string => {
   return (hash >>> 0).toString(16);
 };
 
-// Encodes certificate data into a secure, tamper-proof payload string
+// Encodes certificate data into a secure, highly compressed payload string
 export const encodeCertificateData = (cert: {
   certificateId: string;
   candidateName: string;
@@ -134,28 +199,21 @@ export const encodeCertificateData = (cert: {
   issueDate: string;
   signatoryName: string;
 }): string => {
-  const rawPayload = `v=${encodeURIComponent(cert.certificateId)}&n=${encodeURIComponent(cert.candidateName)}&c=${encodeURIComponent(cert.courseTitle)}&d=${encodeURIComponent(cert.issueDate)}&s=${encodeURIComponent(cert.signatoryName)}`;
-  const encodedPayload = btoa(rawPayload);
-  const sig = generateSignature(rawPayload);
+  const compressed = compressCertificateData(cert);
+  const encodedPayload = btoa(unescape(encodeURIComponent(compressed)));
+  const sig = generateSignature(compressed);
   return `p=${encodeURIComponent(encodedPayload)}&sig=${sig}`;
 };
 
-// Decodes and verifies a tamper-proof payload string
+// Decodes and verifies a compressed payload string
 export const decodeAndVerifyCertificate = (p: string, sig: string) => {
   try {
-    const rawPayload = atob(decodeURIComponent(p));
-    const computedSig = generateSignature(rawPayload);
+    const compressed = decodeURIComponent(escape(atob(decodeURIComponent(p))));
+    const computedSig = generateSignature(compressed);
     if (computedSig !== sig) {
       return null;
     }
-    const params = new URLSearchParams(rawPayload);
-    return {
-      certificateId: decodeURIComponent(params.get('v') || ''),
-      candidateName: decodeURIComponent(params.get('n') || ''),
-      courseTitle: decodeURIComponent(params.get('c') || ''),
-      issueDate: decodeURIComponent(params.get('d') || ''),
-      signatoryName: decodeURIComponent(params.get('s') || ''),
-    };
+    return decompressCertificateData(compressed);
   } catch (e) {
     return null;
   }
