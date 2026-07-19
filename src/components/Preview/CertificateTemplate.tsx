@@ -160,33 +160,33 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
               <div className="p-1.5 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
                 <QRCodeSVG
                   data-qr-value={(() => {
-                    if (data.qrCodeUrl && !data.qrCodeUrl.includes('?verify=') && !data.qrCodeUrl.includes('?id=')) {
+                    if (data.qrCodeUrl && !data.qrCodeUrl.includes('?verify=') && !data.qrCodeUrl.includes('?id=') && !data.qrCodeUrl.includes('?v=')) {
                       return data.qrCodeUrl;
                     }
                     const origin = window.location.origin;
                     const params = new URLSearchParams();
-                    params.set('verify', data.certificateId);
-                    params.set('name', data.candidateName);
-                    params.set('course', data.courseTitle);
-                    params.set('date', data.issueDate);
-                    params.set('sig', data.signatoryName || 'Kush Sharma');
+                    params.set('v', data.certificateId);
+                    params.set('n', data.candidateName);
+                    params.set('c', data.courseTitle);
+                    params.set('d', data.issueDate);
+                    params.set('s', data.signatoryName || 'Kush Sharma');
                     return `${origin}/?${params.toString()}`;
                   })()}
                   value={(() => {
-                    if (data.qrCodeUrl && !data.qrCodeUrl.includes('?verify=') && !data.qrCodeUrl.includes('?id=')) {
+                    if (data.qrCodeUrl && !data.qrCodeUrl.includes('?verify=') && !data.qrCodeUrl.includes('?id=') && !data.qrCodeUrl.includes('?v=')) {
                       return data.qrCodeUrl;
                     }
                     const origin = window.location.origin;
                     const params = new URLSearchParams();
-                    params.set('verify', data.certificateId);
-                    params.set('name', data.candidateName);
-                    params.set('course', data.courseTitle);
-                    params.set('date', data.issueDate);
-                    params.set('sig', data.signatoryName || 'Kush Sharma');
+                    params.set('v', data.certificateId);
+                    params.set('n', data.candidateName);
+                    params.set('c', data.courseTitle);
+                    params.set('d', data.issueDate);
+                    params.set('s', data.signatoryName || 'Kush Sharma');
                     return `${origin}/?${params.toString()}`;
                   })()}
                   size={78}
-                  level="H"
+                  level="L"
                   includeMargin={true}
                 />
               </div>

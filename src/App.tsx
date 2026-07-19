@@ -11,9 +11,9 @@ export const App: React.FC = () => {
   const STORAGE_KEY = 'chittortech_cert_cache_v2';
   const THEME_STORAGE_KEY = 'chittortech_theme_cache_v2';
 
-  // Check if URL has ?verify=... or ?id=... parameter
+  // Check if URL has ?verify=... or ?id=... or ?v=... parameter
   const searchParams = new URLSearchParams(window.location.search);
-  const verifyIdParam = searchParams.get('verify') || searchParams.get('id');
+  const verifyIdParam = searchParams.get('verify') || searchParams.get('id') || searchParams.get('v');
   const [isVerifying, setIsVerifying] = useState<boolean>(!!verifyIdParam);
 
   const [data, setData] = useState<CertificateData>(() => {
@@ -61,14 +61,14 @@ export const App: React.FC = () => {
     if (!verifyIdParam) return null;
     
     // Check if the URL contains self-verifying parameters (name, course, date)
-    const nameParam = searchParams.get('name');
-    const courseParam = searchParams.get('course');
+    const nameParam = searchParams.get('name') || searchParams.get('n');
+    const courseParam = searchParams.get('course') || searchParams.get('c');
     if (nameParam && courseParam) {
       return {
         certificateId: verifyIdParam,
         candidateName: nameParam,
         courseTitle: courseParam,
-        issueDate: searchParams.get('date') || '16-07-2026',
+        issueDate: searchParams.get('date') || searchParams.get('d') || '16-07-2026',
         companyName: 'ChittorTech',
         issuedAt: new Date().toISOString().split('T')[0]
       };
