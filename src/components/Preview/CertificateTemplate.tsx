@@ -130,12 +130,12 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
         <div className="flex items-end justify-between pt-4 border-t border-gray-100 w-full mt-auto">
           
           {/* Left Footer: Signatory Card */}
-          <div className="flex flex-col justify-between h-[92px] w-[230px] bg-slate-50/60 border border-gray-200/80 p-2.5 rounded-xl shadow-2xs text-left">
-            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+          <div className="flex flex-col justify-between h-[112px] w-[240px] bg-slate-50/60 border border-gray-200/80 p-3 rounded-xl shadow-2xs text-left">
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
               Verified By :
             </span>
             <span 
-              className={`text-3xl leading-none my-1 ${
+              className={`text-4xl leading-none my-1.5 ${
                 data.signatureStyle === 'handwriting-2' ? 'font-signature-2' :
                 data.signatureStyle === 'handwriting-3' ? 'font-signature-3' :
                 'font-signature-1'
@@ -144,11 +144,11 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
             >
               {data.signatoryName === 'Lav Sharma' ? 'Lav Sharma' : 'Kush Sharma'}
             </span>
-            <div className="border-t border-gray-200 pt-1 leading-none">
-              <span className="text-xs font-black text-gray-950 block">
+            <div className="border-t border-gray-200 pt-1.5 leading-none">
+              <span className="text-xs font-black text-gray-955 block">
                 {data.signatoryName === 'Lav Sharma' ? 'Lav Sharma' : 'Kush Sharma'}
               </span>
-              <span className="text-[8px] font-bold text-gray-500 uppercase tracking-wider mt-0.5 block">
+              <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider mt-1 block">
                 {data.signatoryName === 'Lav Sharma' ? 'Co-Founder, ChittorTech' : 'Founder, ChittorTech'}
               </span>
             </div>
@@ -156,26 +156,26 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
 
           {/* Center Footer: QR Code & Verification Badge */}
           {data.showQrCode !== false && (
-            <div className="flex items-center gap-2.5 bg-slate-50/60 border border-gray-200/80 p-2.5 rounded-xl shadow-2xs h-[92px]">
-              <div className="p-1 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
+            <div className="flex items-center gap-3 bg-slate-50/60 border border-gray-200/80 p-2.5 rounded-xl shadow-2xs h-[112px]">
+              <div className="p-1.5 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
                 <QRCodeSVG
                   value={data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`}
-                  size={60}
+                  size={78}
                   level="H"
                   includeMargin={false}
                 />
               </div>
               {data.showVerifiedBadge !== false && (
                 <div className="flex flex-col text-left leading-tight pr-1">
-                  <div className="flex items-center gap-1 text-[10px] font-black text-emerald-700 tracking-tight">
-                    <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-emerald-600 text-white text-[8px] font-bold">✓</span>
+                  <div className="flex items-center gap-1 text-[11px] font-black text-emerald-700 tracking-tight">
+                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-600 text-white text-[9px] font-bold">✓</span>
                     <span>Verified by</span>
                   </div>
-                  <span className="text-xs font-black text-gray-900 tracking-wide uppercase mt-0.5">
+                  <span className="text-sm font-black text-gray-900 tracking-wide uppercase mt-0.5">
                     ChittorTech
                   </span>
                   {data.issueDate && (
-                    <span className="text-[9px] font-bold text-gray-600 tracking-tight mt-1 border-t border-gray-200/85 pt-0.5">
+                    <span className="text-[10px] font-bold text-gray-600 tracking-tight mt-1.5 border-t border-gray-200/85 pt-1">
                       Date: <span className="font-semibold text-gray-900">{data.issueDate}</span>
                     </span>
                   )}
@@ -187,20 +187,20 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
           {/* Right Footer: Compact iStart Rajasthan Government Approved Startup Badge */}
           <div className="flex items-end">
             {(data.showIstartBadge !== false) && (
-              <div className="flex items-center gap-2.5 bg-slate-50/60 border border-gray-200/80 p-2.5 rounded-xl shadow-2xs h-[92px]">
+              <div className="flex items-center gap-3 bg-slate-50/60 border border-gray-200/80 p-3 rounded-xl shadow-2xs h-[112px]">
                 <img
                   src="/istart.png"
                   alt="iStart Rajasthan"
-                  className="h-12 object-contain drop-shadow-2xs shrink-0"
+                  className="h-14 object-contain drop-shadow-2xs shrink-0"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = 'none';
                   }}
                 />
-                <div className="flex flex-col text-left border-l border-gray-200 pl-2.5 py-0.5 leading-tight">
-                  <span className="text-[9px] font-extrabold text-emerald-800 uppercase tracking-wider">
+                <div className="flex flex-col text-left border-l border-gray-200 pl-3 py-0.5 leading-tight">
+                  <span className="text-[10px] font-extrabold text-emerald-800 uppercase tracking-wider">
                     Rajasthan Government
                   </span>
-                  <span className="text-[11px] font-black text-gray-900 tracking-tight uppercase mt-0.5">
+                  <span className="text-xs font-black text-gray-900 tracking-tight uppercase mt-0.5">
                     Approved Startup
                   </span>
                 </div>
