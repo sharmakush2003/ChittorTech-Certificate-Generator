@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toPng } from 'html-to-image';
+import { toPng, toJpeg } from 'html-to-image';
 import jsPDF from 'jspdf';
 import confetti from 'canvas-confetti';
 import { Download, FileText, ZoomIn, ZoomOut, RotateCcw, Sparkles, Check } from 'lucide-react';
@@ -103,8 +103,8 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
         parentNode.style.transform = 'none';
       }
 
-      const dataUrl = await toPng(node, {
-        quality: 1.0,
+      const dataUrl = await toJpeg(node, {
+        quality: 0.95,
         pixelRatio: 3,
         cacheBust: true,
       });
@@ -121,7 +121,7 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
         format: 'a4',
       });
 
-      pdf.addImage(dataUrl, 'PNG', 0, 0, 297, 210);
+      pdf.addImage(dataUrl, 'JPEG', 0, 0, 297, 210, undefined, 'FAST');
       pdf.save(getDownloadFilename('pdf'));
 
       setDownloadSuccess('pdf');
