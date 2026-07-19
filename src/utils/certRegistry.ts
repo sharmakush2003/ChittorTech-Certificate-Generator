@@ -130,3 +130,12 @@ export const getMatchedCertData = (searchId: string, currentData: CertificateDat
 
   return null;
 };
+
+// Clear all custom certificates from registry (retaining only presets)
+export const clearIssuedRegistry = (): void => {
+  try {
+    localStorage.removeItem(STORAGE_REGISTRY_KEY);
+  } catch (err) {
+    console.error('Failed to clear issued registry:', err);
+  }
+};

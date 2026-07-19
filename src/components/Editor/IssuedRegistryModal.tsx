@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getIssuedRegistry, type VerifiableCert } from '../../utils/certRegistry';
+import { getIssuedRegistry, clearIssuedRegistry, type VerifiableCert } from '../../utils/certRegistry';
 import { Database, Search, ExternalLink, Download, UserCheck, RefreshCw, CheckCircle2 } from 'lucide-react';
 
 interface IssuedRegistryModalProps {
@@ -13,6 +13,13 @@ export const IssuedRegistryModal: React.FC<IssuedRegistryModalProps> = ({ onAppl
 
   const refreshRegistry = () => {
     setRegistry(getIssuedRegistry());
+  };
+
+  const handleClearRegistry = () => {
+    if (window.confirm('Are you sure you want to clear all custom certificates from the database registry? This cannot be undone.')) {
+      clearIssuedRegistry();
+      refreshRegistry();
+    }
   };
 
   const certList = Object.values(registry);
@@ -63,14 +70,23 @@ export const IssuedRegistryModal: React.FC<IssuedRegistryModalProps> = ({ onAppl
             Permanently saved certificates issued by ChittorTech. Unique Certificate IDs can never be duplicated.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={handleExportCSV}
-          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer shrink-0"
-        >
-          <Download className="w-3.5 h-3.5" />
-          Export CSV
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleClearRegistry}
+            className="px-3 py-1.5 bg-rose-600/10 hover:bg-rose-600/25 border border-rose-500/30 hover:border-rose-500/50 text-rose-400 font-bold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer shrink-0"
+          >
+            Clear Registry
+          </button>
+          <button
+            type="button"
+            onClick={handleExportCSV}
+            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer shrink-0"
+          >
+            <Download className="w-3.5 h-3.5" />
+            Export CSV
+          </button>
+        </div>
       </div>
 
       {/* Search Bar & Refresh */}
