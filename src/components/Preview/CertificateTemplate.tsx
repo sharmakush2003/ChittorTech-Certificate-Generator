@@ -186,32 +186,42 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
           <div className="flex items-center gap-3.5 justify-center pb-0.5">
             {/* QR Code & Verified by ChittorTech Badge */}
             {data.showQrCode !== false && (
-              <div className="flex items-center gap-2.5 bg-gradient-to-r from-slate-50 to-emerald-50/60 p-2 rounded-xl border border-emerald-200/90 shadow-2xs">
-                <div className="p-1 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
-                  <QRCodeSVG
-                    value={data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`}
-                    size={52}
-                    level="H"
-                    includeMargin={false}
-                  />
+              <div className="flex flex-col items-center gap-1 shrink-0">
+                <div className="flex items-center gap-2.5 bg-gradient-to-r from-slate-50 to-emerald-50/60 p-2 rounded-xl border border-emerald-200/90 shadow-2xs">
+                  <div className="p-1 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
+                    <QRCodeSVG
+                      value={data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`}
+                      size={52}
+                      level="H"
+                      includeMargin={false}
+                    />
+                  </div>
+                  
+                  {data.showVerifiedBadge !== false && (
+                    <div className="flex flex-col text-left leading-tight pr-1">
+                      <div className="flex items-center gap-1 text-[10px] font-black text-emerald-700 tracking-tight">
+                        <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-emerald-600 text-white text-[8px] font-bold">✓</span>
+                        <span>Verified by</span>
+                      </div>
+                      <span className="text-xs font-black text-gray-900 tracking-wide uppercase mt-0.5">
+                        ChittorTech
+                      </span>
+                      {data.issueDate && (
+                        <span className="text-[9px] font-bold text-gray-600 tracking-tight mt-1 border-t border-emerald-200/80 pt-0.5">
+                          Date: <span className="font-semibold text-gray-900">{data.issueDate}</span>
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
                 
-                {data.showVerifiedBadge !== false && (
-                  <div className="flex flex-col text-left leading-tight pr-1">
-                    <div className="flex items-center gap-1 text-[10px] font-black text-emerald-700 tracking-tight">
-                      <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-emerald-600 text-white text-[8px] font-bold">✓</span>
-                      <span>Verified by</span>
-                    </div>
-                    <span className="text-xs font-black text-gray-900 tracking-wide uppercase mt-0.5">
-                      ChittorTech
-                    </span>
-                    {data.issueDate && (
-                      <span className="text-[9px] font-bold text-gray-600 tracking-tight mt-1 border-t border-emerald-200/80 pt-0.5">
-                        Date: <span className="font-semibold text-gray-900">{data.issueDate}</span>
-                      </span>
-                    )}
-                  </div>
-                )}
+                {/* Dynamically printed URL beneath the badge */}
+                <span 
+                  className="text-[8px] font-black text-emerald-800/80 font-mono select-all truncate max-w-[200px] text-center tracking-tighter" 
+                  title={data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`}
+                >
+                  {(data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`).replace(/^https?:\/\//, '')}
+                </span>
               </div>
             )}
 
