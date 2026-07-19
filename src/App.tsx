@@ -28,6 +28,15 @@ export const App: React.FC = () => {
       console.error('Failed to load cached certificate data:', err);
     }
 
+    // Sanitize cached signatoryName and certificateId if they are outdated
+    if (initialData.signatoryName !== 'Kush Sharma' && initialData.signatoryName !== 'Lav Sharma') {
+      initialData.signatoryName = 'Kush Sharma';
+      initialData.signatoryTitle = 'Founder\nChittorTech';
+    }
+    if (initialData.certificateId === 'CT2026001') {
+      initialData.certificateId = 'CT-2026-001';
+    }
+
     // Dynamically adjust the QR Code domain to point to the current live origin (Vercel or localhost)
     const liveOrigin = window.location.origin;
     if (initialData.qrCodeUrl) {
