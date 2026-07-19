@@ -162,7 +162,7 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
                   value={data.qrCodeUrl || `https://verify.chittortech.com/cert/${data.certificateId}`}
                   size={78}
                   level="H"
-                  includeMargin={false}
+                  includeMargin={true}
                 />
               </div>
               {data.showVerifiedBadge !== false && (
