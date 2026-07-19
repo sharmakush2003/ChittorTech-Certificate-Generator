@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { toPng, toJpeg } from 'html-to-image';
 import jsPDF from 'jspdf';
 import confetti from 'canvas-confetti';
-import { Download, FileText, ZoomIn, ZoomOut, RotateCcw, Sparkles, Check } from 'lucide-react';
+import { Download, FileText, ZoomIn, ZoomOut, RotateCcw, Sparkles, Check, Mail } from 'lucide-react';
+import type { CertificateData } from '../../types/certificate';
+import { encodeCertificateData } from '../../utils/certRegistry';
 
 interface PreviewControlsProps {
-  candidateName: string;
+  data: CertificateData;
   zoom: number;
   setZoom: (zoom: number) => void;
   onReset: () => void;
@@ -13,7 +15,7 @@ interface PreviewControlsProps {
 }
 
 export const PreviewControls: React.FC<PreviewControlsProps> = ({
-  candidateName,
+  data,
   zoom,
   setZoom,
   onReset,
@@ -24,7 +26,7 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
   const [downloadSuccess, setDownloadSuccess] = useState<'png' | 'pdf' | null>(null);
 
   const getDownloadFilename = (ext: 'png' | 'pdf') => {
-    const sanitizedName = (candidateName || '')
+    const sanitizedName = (data.candidateName || '')
       .trim()
       .replace(/\s+/g, '_')
       .replace(/[^a-zA-Z0-9_-]/g, '');
@@ -135,6 +137,62 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
     }
   };
 
+  const handleEmailNow = () => {
+    const getSignatoryRole = (name: string) => {
+      return name === 'Lav Sharma' ? 'Co-Founder' : 'Founder';
+    };
+
+    const secureQuery = encodeCertificateData({
+      certificateId: data.certificateId,
+      candidateName: data.candidateName,
+      courseTitle: data.courseTitle,
+      issueDate: data.issueDate,
+      signatoryName: data.signatoryName || 'Kush Sharma',
+    });
+
+    const origin = window.location.origin.includes('localhost') ? 'https://chittor-tech-certificate-generator-eight.vercel.app' : window.location.origin;
+    const verificationUrl = `${origin}/?v=${data.certificateId}&${secureQuery}`;
+
+    const emailSubject = `Congratulations on completing your Internship with ChittorTech! | Certificate & Verification Details`;
+
+    const emailBody = `Dear ${data.candidateName},
+
+Greetings from ChittorTech!
+
+We are delighted to congratulate you on the successful completion of your ${data.courseTitle} with us at ChittorTech.
+
+Throughout your internship, you demonstrated exceptional technical curiosity, dedication, and a strong willingness to learn and innovate. Your valuable contributions to our projects, along with your professional approach to problem-solving, have been greatly appreciated by our entire team.
+
+Attached to this email, please find your Official Internship Completion Certificate in two formats for your convenience:
+1. High-Definition PDF (${data.certificateId}.pdf) - Recommended for print, official reference, and academic submissions.
+2. High-Quality PNG Image (${data.certificateId}.png) - Ideal for proudly sharing your achievement on LinkedIn and other professional platforms.
+
+🌐 Secure Online Verification
+To ensure the authenticity of your credentials, your certificate is equipped with our secure verification system:
+* QR Code Verification: Anyone can scan the QR Code printed on your certificate using a smartphone camera to instantly verify its validity.
+* Direct Verification URL: You can also share your certificate's direct verification link: 
+  ${verificationUrl}
+  This will open your official verification record on our portal, certifying your name, course title, and completion date.
+
+We are proud of your growth during this internship and are confident that the knowledge and practical experience you have gained will serve as a strong foundation for your future career. 
+
+Should you require any future references, recommendation letters, or career guidance, please feel free to reach out to us. We would be happy to support you in your professional journey.
+
+Once again, congratulations on reaching this important milestone, ${data.candidateName}! We wish you continued success and all the very best in your future endeavors.
+
+Warm Regards,
+
+${data.signatoryName || 'Kush Sharma'}
+${getSignatoryRole(data.signatoryName || 'Kush Sharma')}
+ChittorTech
+🌐 www.chittortech.online`;
+
+    const to = data.candidateEmail || '';
+    const gmailUrl = `https://mail.google.com/mail/u/chittortech@gmail.com/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    window.open(gmailUrl, '_blank');
+  };
+
   return (
     <div className="w-full bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-6 py-3 flex flex-wrap items-center justify-between gap-4 select-none shadow-lg z-20">
       
@@ -178,6 +236,15 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
 
       {/* Export Buttons */}
       <div className="flex items-center gap-3">
+        <button
+          onClick={handleEmailNow}
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold text-sm rounded-lg shadow-lg shadow-teal-600/20 transition transform active:scale-95 border border-teal-400/30"
+          title="Compose Verification Email in Gmail (via chittortech@gmail.com)"
+        >
+          <Mail className="w-4 h-4" />
+          <span>Email Now</span>
+        </button>
+
         <button
           onClick={handleDownloadPng}
           disabled={isDownloadingPng || isDownloadingPdf}

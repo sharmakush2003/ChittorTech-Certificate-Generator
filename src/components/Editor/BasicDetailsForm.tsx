@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { CertificateData } from '../../types/certificate';
-import { User, BookOpen, Clock, Calendar, Hash, Sparkles, ShieldCheck, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { User, Mail, BookOpen, Clock, Calendar, Hash, Sparkles, ShieldCheck, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { isCertIdAlreadyTaken, getNextAvailableCertId, saveCertificateToRegistry } from '../../utils/certRegistry';
 
 interface BasicDetailsFormProps {
@@ -76,6 +76,24 @@ export const BasicDetailsForm: React.FC<BasicDetailsFormProps> = ({ data, onChan
               value={data.candidateName}
               onChange={(e) => onChange('candidateName', e.target.value)}
               placeholder="e.g. Khushi Tailor"
+              className="w-full pl-9 pr-3 py-2.5 rounded-lg glass-input text-sm font-medium"
+            />
+          </div>
+        </div>
+
+        {/* Candidate Email */}
+        <div>
+          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+            <span>Candidate Email Address (Optional)</span>
+            <span className="text-[10px] text-emerald-400 font-normal">For prefilling Gmail compose</span>
+          </label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+            <input
+              type="email"
+              value={data.candidateEmail || ''}
+              onChange={(e) => onChange('candidateEmail', e.target.value)}
+              placeholder="e.g. candidate@example.com"
               className="w-full pl-9 pr-3 py-2.5 rounded-lg glass-input text-sm font-medium"
             />
           </div>

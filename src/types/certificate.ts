@@ -2,6 +2,7 @@ export const CERTIFICATE_TYPE_VERSION = '2.3';
 
 export interface CertificateData {
   candidateName: string;
+  candidateEmail?: string;
   courseTitle: string;
   duration: string;
   description: string;

@@ -2,6 +2,7 @@ import type { CertificateData, ColorTheme, FontOption } from '../types/certifica
 
 export const DEFAULT_CERTIFICATE_DATA: CertificateData = {
   candidateName: 'Khushi Tailor',
+  candidateEmail: '',
   courseTitle: 'Web Development Internship',
   duration: 'Duration: 2 Months ( 1st May 2025 - 1st July 2025 )',
   description: 'During the internship period, He/She has demonstrated exceptional dedication, enthusiasm and a strong willingness to learn. They actively engaged in various projects and tasks assigned to them, exhibiting remarkable skills and a high level of professionalism.',
