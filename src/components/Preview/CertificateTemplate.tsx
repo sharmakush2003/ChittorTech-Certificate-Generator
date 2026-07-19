@@ -1,5 +1,5 @@
 import React from 'react';
-import { QRCodeSVG } from 'qrcode.react';
+import { QRCodeCanvas } from 'qrcode.react';
 import type { CertificateData, ColorTheme } from '../../types/certificate';
 
 interface CertificateTemplateProps {
@@ -158,7 +158,7 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
           {data.showQrCode !== false && (
             <div className="flex items-center gap-3 bg-slate-50/60 border border-gray-200/80 p-2.5 rounded-xl shadow-2xs h-[112px]">
               <div className="p-1.5 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
-                <QRCodeSVG
+                <QRCodeCanvas
                   value={(() => {
                     if (data.qrCodeUrl && !data.qrCodeUrl.includes('?verify=') && !data.qrCodeUrl.includes('?id=')) {
                       return data.qrCodeUrl;
