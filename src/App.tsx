@@ -57,7 +57,27 @@ export const App: React.FC = () => {
   });
 
   // Dynamic student lookup based on Certificate ID in URL query
-  const matchedCertData = verifyIdParam ? getMatchedCertData(verifyIdParam, data) : null;
+  const matchedCertData = (() => {
+    if (!verifyIdParam) return null;
+    
+    // Check if the URL contains self-verifying parameters (name, course, date)
+    const nameParam = searchParams.get('name');
+    const courseParam = searchParams.get('course');
+    if (nameParam && courseParam) {
+      return {
+        certificateId: verifyIdParam,
+        candidateName: nameParam,
+        courseTitle: courseParam,
+        issueDate: searchParams.get('date') || '16-07-2026',
+        companyName: 'ChittorTech',
+        issuedAt: new Date().toISOString().split('T')[0]
+      };
+    }
+    
+    // Otherwise fallback to local device registry
+    return getMatchedCertData(verifyIdParam, data);
+  })();
+  
   const isCertValid = verifyIdParam ? !!matchedCertData : true;
 
   const [theme, setTheme] = useState<ColorTheme>(() => {

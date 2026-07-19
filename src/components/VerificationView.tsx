@@ -54,18 +54,18 @@ export const VerificationView: React.FC<VerificationViewProps> = ({ certId, data
             </p>
           </div>
 
-          {/* Corporate Badge (iStart Approved Startup) */}
+          {/* Corporate Badge (iStart Recognized Startup) */}
           <div className="flex items-center justify-center gap-3 pt-1">
             <div className="flex items-center gap-2 border border-slate-300 rounded-xl px-4 py-1.5 bg-slate-50">
               <img src="/istart.png" alt="iStart" className="h-6 object-contain" onError={(e) => ((e.target as HTMLElement).style.display = 'none')} />
-              <span className="text-[10px] font-black text-slate-700 uppercase tracking-wider">iStart Approved Startup</span>
+              <span className="text-[10px] font-black text-slate-700 uppercase tracking-wider">iStart Recognized Startup</span>
             </div>
           </div>
 
           {/* Support Banner */}
           <div className="bg-slate-900 text-white rounded-2xl p-4 text-center shadow-md flex flex-col items-center gap-1">
             <span className="font-bold text-xs text-slate-200">ChittorTech Official Credential Security Portal</span>
-            <span className="text-[10px] text-slate-400">Rajasthan Government Approved Startup</span>
+            <span className="text-[10px] text-slate-400">Rajasthan Government Recognized Startup</span>
           </div>
 
         </div>
