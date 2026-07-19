@@ -149,7 +149,7 @@ export const VerificationView: React.FC<VerificationViewProps> = ({ certId, data
         <div className="flex items-center justify-center gap-3 pt-1">
           <div className="flex items-center gap-2 border border-emerald-300 rounded-xl px-4 py-1.5 bg-emerald-50/80">
             <img src="/istart.png" alt="iStart" className="h-6 object-contain" onError={(e) => ((e.target as HTMLElement).style.display = 'none')} />
-            <span className="text-[10px] font-black text-emerald-900 uppercase tracking-wider">iStart Approved Startup</span>
+            <span className="text-[10px] font-black text-emerald-900 uppercase tracking-wider">iStart Recognized Startup</span>
           </div>
         </div>
 

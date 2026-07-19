@@ -201,7 +201,7 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
                     Rajasthan Government
                   </span>
                   <span className="text-xs font-black text-gray-900 tracking-tight uppercase mt-0.5">
-                    Approved Startup
+                    Recognized Startup
                   </span>
                 </div>
               </div>

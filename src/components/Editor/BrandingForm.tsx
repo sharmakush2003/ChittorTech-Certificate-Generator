@@ -33,7 +33,7 @@ export const BrandingForm: React.FC<BrandingFormProps> = ({ data, onChange }) =>
           <div className="flex flex-col justify-end">
             <div className="flex items-center gap-2.5 p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 select-none text-emerald-400">
               <Award className="w-4 h-4 shrink-0" />
-              <span className="text-xs font-bold">iStart Approved Startup (Active)</span>
+              <span className="text-xs font-bold">iStart Recognized Startup (Active)</span>
             </div>
           </div>
         </div>
