@@ -1,0 +1,33 @@
+Subject: Congratulations on completing your Internship with ChittorTech! | Certificate & Verification Details
+
+Dear [Candidate Name],
+
+Greetings from ChittorTech!
+
+We are delighted to congratulate you on the successful completion of your [Course/Internship Title] (e.g., Web Development Internship) with us at ChittorTech.
+
+Throughout your internship, you demonstrated exceptional technical curiosity, dedication, and a strong willingness to learn and innovate. Your valuable contributions to our projects, along with your professional approach to problem-solving, have been greatly appreciated by our entire team.
+
+Attached to this email, please find your Official Internship Completion Certificate in two formats for your convenience:
+1. High-Definition PDF ([Certificate ID].pdf e.g., CT-2026-001.pdf) - Recommended for print, official reference, and academic submissions.
+2. High-Quality PNG Image ([Certificate ID].png e.g., CT-2026-001.png) - Ideal for proudly sharing your achievement on LinkedIn and other professional platforms.
+
+🌐 Secure Online Verification
+To ensure the authenticity of your credentials, your certificate is equipped with our secure verification system:
+* QR Code Verification: Anyone can scan the QR Code printed on your certificate using a smartphone camera to instantly verify its validity.
+* Direct Verification URL: You can also share your certificate's direct verification link: 
+  https://chittor-tech-certificate-generator-eight.vercel.app/?v=[Certificate ID] (e.g., CT-2026-001)
+  This will open your official verification record on our portal, certifying your name, course title, and completion date.
+
+We are proud of your growth during this internship and are confident that the knowledge and practical experience you have gained will serve as a strong foundation for your future career. 
+
+Should you require any future references, recommendation letters, or career guidance, please feel free to reach out to us. We would be happy to support you in your professional journey.
+
+Once again, congratulations on reaching this important milestone, [Candidate Name]! We wish you continued success and all the very best in your future endeavors.
+
+Warm Regards,
+
+[Signatory Name] (e.g., Kush Sharma or Lav Sharma)
+[Signatory Title, e.g., Founder / Co-Founder]
+ChittorTech
+🌐 www.chittortech.online
