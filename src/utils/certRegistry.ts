@@ -11,32 +11,7 @@ export interface VerifiableCert {
 
 export const STORAGE_REGISTRY_KEY = 'chittortech_issued_registry_v2';
 
-export const PRESET_CERTIFICATES: Record<string, VerifiableCert> = {
-  'CT-2026-001': {
-    certificateId: 'CT-2026-001',
-    candidateName: 'Khushi Tailor',
-    courseTitle: 'Web Development Internship',
-    issueDate: '16-07-2026',
-    companyName: 'ChittorTech',
-    issuedAt: '2026-07-16',
-  },
-  'CT-2026-002': {
-    certificateId: 'CT-2026-002',
-    candidateName: 'Rahul Sharma',
-    courseTitle: 'Full Stack AI Engineering',
-    issueDate: '01-08-2026',
-    companyName: 'ChittorTech',
-    issuedAt: '2026-08-01',
-  },
-  'CT-2026-003': {
-    certificateId: 'CT-2026-003',
-    candidateName: 'Ananya Verma',
-    courseTitle: 'Cloud & DevOps Mastery',
-    issueDate: '15-07-2026',
-    companyName: 'ChittorTech',
-    issuedAt: '2026-07-15',
-  },
-};
+export const PRESET_CERTIFICATES: Record<string, VerifiableCert> = {};
 
 // Get combined issued registry (Preset + localStorage)
 export const getIssuedRegistry = (): Record<string, VerifiableCert> => {
@@ -72,7 +47,7 @@ export const saveCertificateToRegistry = (cert: VerifiableCert): void => {
 // Get next available auto-incremented Certificate ID (e.g. CT-2026-004)
 export const getNextAvailableCertId = (): string => {
   const registry = getIssuedRegistry();
-  let maxNum = 3;
+  let maxNum = 0;
 
   Object.keys(registry).forEach((id) => {
     // Extract numbers from IDs like CT-2026-001 or CT2026001 or 08-2025-51625
