@@ -23,7 +23,7 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
       
       {/* Top Action / Zoom Bar */}
       <PreviewControls
-        certificateId={data.certificateId}
+        candidateName={data.candidateName}
         zoom={zoom}
         setZoom={setZoom}
         onReset={onReset}

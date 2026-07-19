@@ -16,16 +16,34 @@ export const App: React.FC = () => {
   const [isVerifying, setIsVerifying] = useState<boolean>(!!verifyIdParam);
 
   const [data, setData] = useState<CertificateData>(() => {
+    let initialData = DEFAULT_CERTIFICATE_DATA;
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        return { ...DEFAULT_CERTIFICATE_DATA, ...parsed };
+        initialData = { ...DEFAULT_CERTIFICATE_DATA, ...parsed };
       }
     } catch (err) {
       console.error('Failed to load cached certificate data:', err);
     }
-    return DEFAULT_CERTIFICATE_DATA;
+
+    // Dynamically adjust the QR Code domain to point to the current live origin (Vercel or localhost)
+    const liveOrigin = window.location.origin;
+    if (initialData.qrCodeUrl) {
+      if (initialData.qrCodeUrl.includes('?verify=')) {
+        const certId = initialData.qrCodeUrl.split('?verify=')[1];
+        initialData.qrCodeUrl = `${liveOrigin}/?verify=${certId}`;
+      } else if (initialData.qrCodeUrl.includes('?id=')) {
+        const certId = initialData.qrCodeUrl.split('?id=')[1];
+        initialData.qrCodeUrl = `${liveOrigin}/?id=${certId}`;
+      } else {
+        initialData.qrCodeUrl = `${liveOrigin}/?verify=${initialData.certificateId}`;
+      }
+    } else {
+      initialData.qrCodeUrl = `${liveOrigin}/?verify=${initialData.certificateId}`;
+    }
+
+    return initialData;
   });
 
   // Dynamic student lookup based on Certificate ID in URL query

@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 import { Download, FileText, ZoomIn, ZoomOut, RotateCcw, Sparkles, Check } from 'lucide-react';
 
 interface PreviewControlsProps {
-  certificateId: string;
+  candidateName: string;
   zoom: number;
   setZoom: (zoom: number) => void;
   onReset: () => void;
@@ -13,7 +13,7 @@ interface PreviewControlsProps {
 }
 
 export const PreviewControls: React.FC<PreviewControlsProps> = ({
-  certificateId,
+  candidateName,
   zoom,
   setZoom,
   onReset,
@@ -22,6 +22,17 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
   const [isDownloadingPng, setIsDownloadingPng] = useState(false);
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState<'png' | 'pdf' | null>(null);
+
+  const getDownloadFilename = (ext: 'png' | 'pdf') => {
+    const sanitizedName = (candidateName || '')
+      .trim()
+      .replace(/\s+/g, '_')
+      .replace(/[^a-zA-Z0-9_-]/g, '');
+    const baseName = sanitizedName 
+      ? `${sanitizedName}_ChittorTech_Certificate` 
+      : 'ChittorTech_Certificate';
+    return `${baseName}.${ext}`;
+  };
 
   const triggerCelebration = () => {
     confetti({
@@ -42,6 +53,12 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
       // Temporarily remove transform for capturing exact 1123x794 resolution at 3x pixel ratio
       const originalTransform = node.style.transform;
       node.style.transform = 'none';
+      
+      const parentNode = node.parentElement;
+      const originalParentTransform = parentNode ? parentNode.style.transform : '';
+      if (parentNode) {
+        parentNode.style.transform = 'none';
+      }
 
       const dataUrl = await toPng(node, {
         quality: 1.0,
@@ -50,9 +67,12 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
       });
 
       node.style.transform = originalTransform;
+      if (parentNode) {
+        parentNode.style.transform = originalParentTransform;
+      }
 
       const link = document.createElement('a');
-      link.download = `${certificateId || 'ChittorTech-Certificate'}.png`;
+      link.download = getDownloadFilename('png');
       link.href = dataUrl;
       link.click();
 
@@ -76,6 +96,12 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
       
       const originalTransform = node.style.transform;
       node.style.transform = 'none';
+      
+      const parentNode = node.parentElement;
+      const originalParentTransform = parentNode ? parentNode.style.transform : '';
+      if (parentNode) {
+        parentNode.style.transform = 'none';
+      }
 
       const dataUrl = await toPng(node, {
         quality: 1.0,
@@ -84,6 +110,9 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
       });
 
       node.style.transform = originalTransform;
+      if (parentNode) {
+        parentNode.style.transform = originalParentTransform;
+      }
 
       // A4 Landscape is 297mm x 210mm
       const pdf = new jsPDF({
@@ -93,7 +122,7 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
       });
 
       pdf.addImage(dataUrl, 'PNG', 0, 0, 297, 210);
-      pdf.save(`${certificateId || 'ChittorTech-Certificate'}.pdf`);
+      pdf.save(getDownloadFilename('pdf'));
 
       setDownloadSuccess('pdf');
       triggerCelebration();
