@@ -164,8 +164,8 @@ We are delighted to congratulate you on the successful completion of your ${data
 Throughout your internship, you demonstrated exceptional technical curiosity, dedication, and a strong willingness to learn and innovate. Your valuable contributions to our projects, along with your professional approach to problem-solving, have been greatly appreciated by our entire team.
 
 Attached to this email, please find your Official Internship Completion Certificate in two formats for your convenience:
-1. High-Definition PDF (${data.certificateId}.pdf) - Recommended for print, official reference, and academic submissions.
-2. High-Quality PNG Image (${data.certificateId}.png) - Ideal for proudly sharing your achievement on LinkedIn and other professional platforms.
+1. High-Definition PDF (${getDownloadFilename('pdf')}) - Recommended for print, official reference, and academic submissions.
+2. High-Quality PNG Image (${getDownloadFilename('png')}) - Ideal for proudly sharing your achievement on LinkedIn and other professional platforms.
 
 🌐 Secure Online Verification
 To ensure the authenticity of your credentials, your certificate is equipped with our secure verification system:
