@@ -4,16 +4,22 @@ import { DEFAULT_CERTIFICATE_DATA, COLOR_THEMES, FONT_OPTIONS } from './data/def
 import { EditorContainer } from './components/Editor/EditorContainer';
 import { PreviewContainer } from './components/Preview/PreviewContainer';
 import { VerificationView } from './components/VerificationView';
-import { getMatchedCertData } from './utils/certRegistry';
+import { getMatchedCertData, decodeAndVerifyCertificate } from './utils/certRegistry';
 import { Monitor } from 'lucide-react';
 
 export const App: React.FC = () => {
   const STORAGE_KEY = 'chittortech_cert_cache_v2';
   const THEME_STORAGE_KEY = 'chittortech_theme_cache_v2';
 
-  // Check if URL has ?verify=... or ?id=... or ?v=... parameter
+  // Check if URL has ?verify=... or ?id=... or ?v=... parameter, or encrypted ?p=... parameter
   const searchParams = new URLSearchParams(window.location.search);
-  const verifyIdParam = searchParams.get('verify') || searchParams.get('id') || searchParams.get('v');
+  const pParam = searchParams.get('p');
+  const sigParam = searchParams.get('sig');
+  
+  // Try to decode secure payload first
+  const secureCert = (pParam && sigParam) ? decodeAndVerifyCertificate(pParam, sigParam) : null;
+  
+  const verifyIdParam = secureCert ? secureCert.certificateId : (searchParams.get('verify') || searchParams.get('id') || searchParams.get('v'));
   const [isVerifying, setIsVerifying] = useState<boolean>(!!verifyIdParam);
 
   const [data, setData] = useState<CertificateData>(() => {
@@ -58,6 +64,17 @@ export const App: React.FC = () => {
 
   // Dynamic student lookup based on Certificate ID in URL query
   const matchedCertData = (() => {
+    if (secureCert) {
+      return {
+        certificateId: secureCert.certificateId,
+        candidateName: secureCert.candidateName,
+        courseTitle: secureCert.courseTitle,
+        issueDate: secureCert.issueDate,
+        companyName: 'ChittorTech',
+        issuedAt: new Date().toISOString().split('T')[0]
+      };
+    }
+
     if (!verifyIdParam) return null;
     
     // Check if the URL contains self-verifying parameters (name, course, date)

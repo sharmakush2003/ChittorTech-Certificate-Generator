@@ -1,6 +1,7 @@
 import React from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import type { CertificateData, ColorTheme } from '../../types/certificate';
+import { encodeCertificateData } from '../../utils/certRegistry';
 
 interface CertificateTemplateProps {
   data: CertificateData;
@@ -160,30 +161,32 @@ export const CertificateTemplate: React.FC<CertificateTemplateProps> = ({
               <div className="p-1.5 bg-white rounded-lg border border-gray-200 flex items-center justify-center shrink-0 shadow-2xs">
                 <QRCodeSVG
                   data-qr-value={(() => {
-                    if (data.qrCodeUrl && !data.qrCodeUrl.includes('?verify=') && !data.qrCodeUrl.includes('?id=') && !data.qrCodeUrl.includes('?v=')) {
+                    if (data.qrCodeUrl && !data.qrCodeUrl.includes('?verify=') && !data.qrCodeUrl.includes('?id=') && !data.qrCodeUrl.includes('?v=') && !data.qrCodeUrl.includes('?p=')) {
                       return data.qrCodeUrl;
                     }
                     const origin = window.location.origin;
-                    const params = new URLSearchParams();
-                    params.set('v', data.certificateId);
-                    params.set('n', data.candidateName);
-                    params.set('c', data.courseTitle);
-                    params.set('d', data.issueDate);
-                    params.set('s', data.signatoryName || 'Kush Sharma');
-                    return `${origin}/?${params.toString()}`;
+                    const secureQuery = encodeCertificateData({
+                      certificateId: data.certificateId,
+                      candidateName: data.candidateName,
+                      courseTitle: data.courseTitle,
+                      issueDate: data.issueDate,
+                      signatoryName: data.signatoryName || 'Kush Sharma',
+                    });
+                    return `${origin}/?${secureQuery}`;
                   })()}
                   value={(() => {
-                    if (data.qrCodeUrl && !data.qrCodeUrl.includes('?verify=') && !data.qrCodeUrl.includes('?id=') && !data.qrCodeUrl.includes('?v=')) {
+                    if (data.qrCodeUrl && !data.qrCodeUrl.includes('?verify=') && !data.qrCodeUrl.includes('?id=') && !data.qrCodeUrl.includes('?v=') && !data.qrCodeUrl.includes('?p=')) {
                       return data.qrCodeUrl;
                     }
                     const origin = window.location.origin;
-                    const params = new URLSearchParams();
-                    params.set('v', data.certificateId);
-                    params.set('n', data.candidateName);
-                    params.set('c', data.courseTitle);
-                    params.set('d', data.issueDate);
-                    params.set('s', data.signatoryName || 'Kush Sharma');
-                    return `${origin}/?${params.toString()}`;
+                    const secureQuery = encodeCertificateData({
+                      certificateId: data.certificateId,
+                      candidateName: data.candidateName,
+                      courseTitle: data.courseTitle,
+                      issueDate: data.issueDate,
+                      signatoryName: data.signatoryName || 'Kush Sharma',
+                    });
+                    return `${origin}/?${secureQuery}`;
                   })()}
                   size={78}
                   level="L"

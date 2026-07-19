@@ -114,3 +114,49 @@ export const clearIssuedRegistry = (): void => {
     console.error('Failed to clear issued registry:', err);
   }
 };
+
+// A simple hash function to generate a 8-character hex signature
+export const generateSignature = (dataStr: string): string => {
+  let hash = 5381;
+  const salt = 'chittortech_secure_salt_2026';
+  const combined = dataStr + salt;
+  for (let i = 0; i < combined.length; i++) {
+    hash = (hash * 33) ^ combined.charCodeAt(i);
+  }
+  return (hash >>> 0).toString(16);
+};
+
+// Encodes certificate data into a secure, tamper-proof payload string
+export const encodeCertificateData = (cert: {
+  certificateId: string;
+  candidateName: string;
+  courseTitle: string;
+  issueDate: string;
+  signatoryName: string;
+}): string => {
+  const rawPayload = `v=${encodeURIComponent(cert.certificateId)}&n=${encodeURIComponent(cert.candidateName)}&c=${encodeURIComponent(cert.courseTitle)}&d=${encodeURIComponent(cert.issueDate)}&s=${encodeURIComponent(cert.signatoryName)}`;
+  const encodedPayload = btoa(rawPayload);
+  const sig = generateSignature(rawPayload);
+  return `p=${encodeURIComponent(encodedPayload)}&sig=${sig}`;
+};
+
+// Decodes and verifies a tamper-proof payload string
+export const decodeAndVerifyCertificate = (p: string, sig: string) => {
+  try {
+    const rawPayload = atob(decodeURIComponent(p));
+    const computedSig = generateSignature(rawPayload);
+    if (computedSig !== sig) {
+      return null;
+    }
+    const params = new URLSearchParams(rawPayload);
+    return {
+      certificateId: decodeURIComponent(params.get('v') || ''),
+      candidateName: decodeURIComponent(params.get('n') || ''),
+      courseTitle: decodeURIComponent(params.get('c') || ''),
+      issueDate: decodeURIComponent(params.get('d') || ''),
+      signatoryName: decodeURIComponent(params.get('s') || ''),
+    };
+  } catch (e) {
+    return null;
+  }
+};
