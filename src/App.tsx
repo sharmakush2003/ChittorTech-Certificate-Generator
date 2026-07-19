@@ -181,10 +181,6 @@ export const App: React.FC = () => {
           <EditorContainer
             data={data}
             onChange={handleDataChange}
-            currentTheme={theme}
-            onThemeSelect={setTheme}
-            currentFontClass={fontClass}
-            onFontSelect={setFontClass}
             onApplyBatchStudent={handleApplyBatchStudent}
           />
         </div>

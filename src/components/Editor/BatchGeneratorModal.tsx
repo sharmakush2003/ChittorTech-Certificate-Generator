@@ -12,7 +12,7 @@ export const BatchGeneratorModal: React.FC<BatchGeneratorModalProps> = ({
   onApplyStudent,
 }) => {
   const [csvText, setCsvText] = useState<string>(
-    `Name, CertificateID, CourseTitle, Duration\nKhushi Tailor, CT2026001, Web Development Internship, Duration: 2 Months ( 1st May - 1st July 2025 )\nRahul Sharma, CT2026002, Full Stack AI Engineering, Duration: 3 Months ( 1st June - 1st Sept 2025 )\nAnanya Verma, CT2026003, Cloud & DevOps Mastery, Duration: 2 Months ( 15th May - 15th July 2025 )`
+    `Name, CertificateID, CourseTitle, Duration\nKhushi Tailor, CT-2026-001, Web Development Internship, Duration: 2 Months ( 1st May - 1st July 2025 )\nRahul Sharma, CT-2026-002, Full Stack AI Engineering, Duration: 3 Months ( 1st June - 1st Sept 2025 )\nAnanya Verma, CT-2026-003, Cloud & DevOps Mastery, Duration: 2 Months ( 15th May - 15th July 2025 )`
   );
 
   const [parsedItems, setParsedItems] = useState<Array<{
@@ -33,7 +33,7 @@ export const BatchGeneratorModal: React.FC<BatchGeneratorModalProps> = ({
       const parts = line.split(',').map((p) => p.trim());
       return {
         name: parts[0] || 'Unknown Student',
-        id: parts[1] || `CT2026${Math.floor(100 + Math.random() * 900)}`,
+        id: parts[1] || `CT-2026-${Math.floor(100 + Math.random() * 900)}`,
         course: parts[2] || currentData.courseTitle,
         duration: parts[3] || currentData.duration,
       };

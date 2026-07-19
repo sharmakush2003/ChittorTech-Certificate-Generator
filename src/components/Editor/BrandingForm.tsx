@@ -142,7 +142,7 @@ export const BrandingForm: React.FC<BrandingFormProps> = ({ data, onChange }) =>
             type="text"
             value={data.qrCodeUrl}
             onChange={(e) => onChange('qrCodeUrl', e.target.value)}
-            placeholder="https://verify.chittortech.com/cert/CT2026001"
+            placeholder="https://verify.chittortech.com/cert/CT-2026-001"
             className="w-full px-3 py-2.5 rounded-lg glass-input text-xs font-mono text-emerald-300"
           />
           <p className="text-[11px] text-slate-500 mt-1">

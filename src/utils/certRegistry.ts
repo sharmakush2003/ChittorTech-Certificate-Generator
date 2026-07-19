@@ -12,24 +12,24 @@ export interface VerifiableCert {
 export const STORAGE_REGISTRY_KEY = 'chittortech_issued_registry_v2';
 
 export const PRESET_CERTIFICATES: Record<string, VerifiableCert> = {
-  'CT2026001': {
-    certificateId: 'CT2026001',
+  'CT-2026-001': {
+    certificateId: 'CT-2026-001',
     candidateName: 'Khushi Tailor',
     courseTitle: 'Web Development Internship',
     issueDate: '16-07-2026',
     companyName: 'ChittorTech',
     issuedAt: '2026-07-16',
   },
-  'CT2026002': {
-    certificateId: 'CT2026002',
+  'CT-2026-002': {
+    certificateId: 'CT-2026-002',
     candidateName: 'Rahul Sharma',
     courseTitle: 'Full Stack AI Engineering',
     issueDate: '01-08-2026',
     companyName: 'ChittorTech',
     issuedAt: '2026-08-01',
   },
-  'CT2026003': {
-    certificateId: 'CT2026003',
+  'CT-2026-003': {
+    certificateId: 'CT-2026-003',
     candidateName: 'Ananya Verma',
     courseTitle: 'Cloud & DevOps Mastery',
     issueDate: '15-07-2026',
@@ -69,14 +69,14 @@ export const saveCertificateToRegistry = (cert: VerifiableCert): void => {
   }
 };
 
-// Get next available auto-incremented Certificate ID (e.g. CT2026004)
+// Get next available auto-incremented Certificate ID (e.g. CT-2026-004)
 export const getNextAvailableCertId = (): string => {
   const registry = getIssuedRegistry();
   let maxNum = 3;
 
   Object.keys(registry).forEach((id) => {
-    // Extract numbers from IDs like CT2026001 or 08-2025-51625
-    const match = id.match(/CT\d{4}(\d+)/i) || id.match(/(\d+)$/);
+    // Extract numbers from IDs like CT-2026-001 or CT2026001 or 08-2025-51625
+    const match = id.match(/CT-\d{4}-(\d+)/i) || id.match(/CT\d{4}(\d+)/i) || id.match(/(\d+)$/);
     if (match && match[1]) {
       const num = parseInt(match[1], 10);
       if (!isNaN(num) && num > maxNum && num < 99999) {
@@ -87,7 +87,7 @@ export const getNextAvailableCertId = (): string => {
 
   const nextNum = maxNum + 1;
   const padded = String(nextNum).padStart(3, '0');
-  return `CT2026${padded}`;
+  return `CT-2026-${padded}`;
 };
 
 // Check if a Certificate ID is already taken by a different candidate

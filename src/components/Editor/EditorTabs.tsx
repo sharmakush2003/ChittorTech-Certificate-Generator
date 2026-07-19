@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, FileText, Award, Palette, Users, Database } from 'lucide-react';
+import { User, FileText, Award, Users, Database } from 'lucide-react';
 
 export type EditorTabId = 'basic' | 'body' | 'branding' | 'theme' | 'batch' | 'registry';
 

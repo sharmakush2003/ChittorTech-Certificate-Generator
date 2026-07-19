@@ -99,7 +99,7 @@ export const BasicDetailsForm: React.FC<BasicDetailsFormProps> = ({ data, onChan
               type="text"
               value={data.certificateId}
               onChange={(e) => handleCertificateIdChange(e.target.value)}
-              placeholder="CT2026001"
+              placeholder="CT-2026-001"
               className={`w-full pl-9 pr-3 py-2.5 rounded-lg glass-input text-sm font-mono font-bold ${
                 takenBy ? 'text-rose-400 border-rose-500/60 bg-rose-950/20' : 'text-amber-300'
               }`}

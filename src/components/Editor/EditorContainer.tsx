@@ -1,31 +1,22 @@
 import React, { useState } from 'react';
-import type { CertificateData, ColorTheme } from '../../types/certificate';
+import type { CertificateData } from '../../types/certificate';
 import { EditorTabs } from './EditorTabs';
 import type { EditorTabId } from './EditorTabs';
 import { BasicDetailsForm } from './BasicDetailsForm';
 import { BodyTextForm } from './BodyTextForm';
 import { BrandingForm } from './BrandingForm';
-import { ThemeSelector } from './ThemeSelector';
 import { BatchGeneratorModal } from './BatchGeneratorModal';
 import { IssuedRegistryModal } from './IssuedRegistryModal';
 
 interface EditorContainerProps {
   data: CertificateData;
   onChange: <K extends keyof CertificateData>(field: K, value: CertificateData[K]) => void;
-  currentTheme: ColorTheme;
-  onThemeSelect: (theme: ColorTheme) => void;
-  currentFontClass: string;
-  onFontSelect: (fontClass: string) => void;
   onApplyBatchStudent: (item: { candidateName: string; courseTitle: string; duration: string; certificateId: string }) => void;
 }
 
 export const EditorContainer: React.FC<EditorContainerProps> = ({
   data,
   onChange,
-  currentTheme,
-  onThemeSelect,
-  currentFontClass,
-  onFontSelect,
   onApplyBatchStudent,
 }) => {
   const [activeTab, setActiveTab] = useState<EditorTabId>('basic');
