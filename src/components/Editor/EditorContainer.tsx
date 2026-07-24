@@ -65,8 +65,7 @@ export const EditorContainer: React.FC<EditorContainerProps> = ({
       </div>
 
       {/* Footer Info inside Editor */}
-      <div className="p-3 bg-slate-950 border-t border-slate-800 text-[11px] text-slate-500 flex items-center justify-between shrink-0">
-        <span>Inspired by OctaNet & ChittorTech</span>
+      <div className="p-3 bg-slate-950 border-t border-slate-800 text-[11px] text-slate-500 flex items-center justify-end shrink-0">
         <span className="text-slate-400 font-semibold">Live Auto-Save</span>
       </div>
 
